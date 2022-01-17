@@ -1,0 +1,25 @@
+{
+  "name": "urlshortener",
+  "version": "1.0.0",
+  "description": "Projeto desenvolvido na atividade 3 da disciplina Desenvolvimento Backend para Aplicações Móveis da pós-graduação em Desenvolvimento Mobile da Faculdade Unyleya. O projeto consiste em um encurtador de URL.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aristoteles88/url_shortener.git"
+  },
+  "keywords": [
+    "node",
+    "swagger",
+    "url",
+    "short"
+  ],
+  "author": "Aristóteles Soares Benício Júnior",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aristoteles88/url_shortener/issues"
+  },
+  "homepage": "https://github.com/aristoteles88/url_shortener#readme"
+}
