@@ -4,7 +4,7 @@
   "description": "Projeto desenvolvido na atividade 3 da disciplina Desenvolvimento Backend para Aplicações Móveis da pós-graduação em Desenvolvimento Mobile da Faculdade Unyleya. O projeto consiste em um encurtador de URL.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +17,17 @@
     "short"
   ],
   "author": "Aristóteles Soares Benício Júnior",
-  "license": "ISC",
+  "license": "GPL",
   "bugs": {
     "url": "https://github.com/aristoteles88/url_shortener/issues"
   },
-  "homepage": "https://github.com/aristoteles88/url_shortener#readme"
+  "homepage": "https://github.com/aristoteles88/url_shortener#readme",
+  "dependencies": {
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
