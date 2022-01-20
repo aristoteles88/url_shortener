@@ -1,6 +1,31 @@
 module.exports = (router) => {
     const db = require("../../config/dbHelper");
-    router.get('/', (req, resp) => resp.json({ message: 'Funcionando!'}));
+    router.get('/', (req, resp) => resp.json({ message: 'API que gera encurtador de urls funcionando corretamente!'}));
+
+    //https://attacomsian.com/blog/javascript-generate-random-string
+    function randomAddress(length) {
+        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+        let str = '';
+        for (let i = 0; i < length; i++) {
+            str += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        return str;
+
+    };
+
+    // Função que retorna um número inteiro aleatório entre dois inteiros positivos fornecidos.
+    // Caso seja fornecido um número negativo, este será considerado 1.
+    // Caso sejam passados dois números iguais, será retornado um número inteiro entre 1 e o número passado.
+    function randomIntBetweenTwoInts(intA, intB) {
+        if (intA < intB)
+            return intA + Math.floor(Math.random() * 1000) % (intB - intA);
+        else if (intA > intB)
+            return intB + Math.floor(Math.random() * 1000) % (intA - intB);
+        else
+            return Math.floor(Math.random() * 1000) % intA;
+    }
 
     //READ ALL
     router.get('/urls', async function (req, resp) {
@@ -25,8 +50,15 @@ module.exports = (router) => {
     //READ BY SHORTENER
     router.get('/:shortener', async function (req, resp) {
         const shortener = req.params.shortener;
-        const url = await db.selectURLs(null,null,shortener);
-        resp.json(url);
+        if (shortener === "urls"){
+            const urls = await db.selectURLs();
+            console.log(urls);
+            resp.json(urls);
+        } else {
+            const url = await db.selectURLs(null,null,shortener);
+            console.log(url);
+            resp.json(url);
+        }
     });
 
     //CREATE
@@ -38,13 +70,13 @@ module.exports = (router) => {
         while (!shortener_ok && count < 10) {
             count += 1;
             const url = await db.selectURLs(null,null, shortened_url);
-            if (url === null)
+            if (url.length === 0)
                 shortener_ok = true;
             else
                 shortened_url = randomAddress(randomIntBetweenTwoInts(8,16));
         }
         if (shortener_ok) {
-            const url = {
+            url = {
                 address: url_address,
                 short: shortened_url
             }

@@ -1,31 +1,39 @@
 var { DateTime } = require('luxon');
 
+
 async function connect() {
     if (global.connection && global.connection.state !== "disconnected") {
         return global.connection;
     }
 
+    require("dotenv").config('../../');
+    const host = process.env.DB_HOST;
+    const port = process.env.PORT;
+    const user = process.env.DB_USER;
+    const password = process.env.PASSWORD;
+    const database = process.env.DATABASE;
+
     const mysql = require("mysql2/promise");
     const connection = await mysql.createConnection({
-        host     : "localhost",
-        port     : 3306,
-        user     : "root",
-        password : "mysqlpwd",
-        database : "URLSHORTENER"
+        host     : host,
+        port     : port,
+        user     : user,
+        password : password,
+        database : database
     });
-    console.log("Conectou no MySQL!");
+    console.log("Conectou ao MySQL!");
     global.connection = connection;
     return connection;
 }
 
-async function selectURLs(byid, bydate,byshortener) {
+async function selectURLs(byid, bydate, byshortener) {
     const conn = await connect();
     var [rows] = [];
     if (byid) {
         [rows] = await conn.query("SELECT * FROM URLS WHERE id=?;", [byid]);
-    } else if (bydate !== null) {
+    } else if (bydate) {
         [rows] = await conn.query("SELECT * FROM URLS WHERE create_time LIKE ?;", [`${bydate}%`]);
-    } else if (byshortener !== null) {
+    } else if (byshortener) {
         [rows] = await conn.query("SELECT * FROM URLS WHERE shortened_url=?;", [byshortener]);
     } else {
         [rows] = await conn.query("SELECT * FROM URLS;");

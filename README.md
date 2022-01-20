@@ -9,3 +9,6 @@ As especificações para o projeto são:
 - um método que retorna todas as URLs encurtadas em uma data específica.
 
 - um método que retorna uma url encurtada conforme o encurtamento da URL.
+
+Para executar o projeto, é necessário ter uma instância do MySQL.
+Criar um arquivo .env com as configurações indicadas no arquivo .env.example.
