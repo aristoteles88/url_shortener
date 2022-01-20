@@ -2,23 +2,25 @@ module.exports = (router) => {
     const db = require("../../config/dbHelper");
     router.get('/', (req, resp) => resp.json({ message: 'API que gera encurtador de urls funcionando corretamente!'}));
 
-    //https://attacomsian.com/blog/javascript-generate-random-string
+    //Função que retorna uma string contendo letras e números de tamanho length (passado como parâmetro)
+    //Código obtido no endereço: https://attacomsian.com/blog/javascript-generate-random-string
     function randomAddress(length) {
         let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
         let str = '';
         for (let i = 0; i < length; i++) {
             str += chars.charAt(Math.floor(Math.random() * chars.length));
         }
-
         return str;
-
     };
 
     // Função que retorna um número inteiro aleatório entre dois inteiros positivos fornecidos.
-    // Caso seja fornecido um número negativo, este será considerado 1.
+    // Caso seja fornecido um número negativo ou o zero, este será considerado 1.
     // Caso sejam passados dois números iguais, será retornado um número inteiro entre 1 e o número passado.
     function randomIntBetweenTwoInts(intA, intB) {
+        if (intA < 1)
+            intA = 1;
+        if (intB < 1)
+            intB = 1;
         if (intA < intB)
             return intA + Math.floor(Math.random() * 1000) % (intB - intA);
         else if (intA > intB)
@@ -87,6 +89,9 @@ module.exports = (router) => {
         resp.json(url);
     });
 
+    // //Os códigos de UPDATE e DELETE foram implementados apenas para estudo.
+    // //Foram comentados por não fazerem parte do escopo do projeto.
+    // //Para o UPDATE, foi criado o campo update_time no BD.
     // //UPDATE
     // router.put('/urls/:id', async function (req, resp) {
     //     const id = Number(req.params.id);
