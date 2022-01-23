@@ -1,4 +1,32 @@
-var { DateTime } = require('luxon');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: config/dbHelper.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: config/dbHelper.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>var { DateTime } = require('luxon');
 /**
  * @module dbHelper
  */
@@ -10,7 +38,7 @@ var { DateTime } = require('luxon');
 
 
 async function connect() {
-    if (global.connection && global.connection.state !== "disconnected") {
+    if (global.connection &amp;&amp; global.connection.state !== "disconnected") {
         return global.connection;
     }
 
@@ -47,7 +75,7 @@ async function connect() {
  * @param {int} byid - Inteiro que representa o id do registro no banco de dados.
  * @param {string} bydate - String representando uma data no formado yyyy-mm-dd.
  * @param {string} byshortener - String com tamanho entre 8e 16 caracteres contendo eletras maiúsculas, letras minúsculas e números.
- * @returns {Promise<any>} JSON contendo informações sobre a operação no banco de dados
+ * @returns {Promise&lt;any>} JSON contendo as urls que satisfazem o parâmetro passado.
  */
 async function selectURLs(byid, bydate, byshortener) {
     const conn = await connect();
@@ -68,10 +96,10 @@ async function selectURLs(byid, bydate, byshortener) {
  * Cria registro da url informada no parâmetro no banco de dados.
  * @param {string} url - String representando a url que deve ser encurtada.
  * @param {string} short - String representando a url já encurtada.
- * @returns {Promise<any>} JSON contendo informações sobre a operação no banco de dados
+ * @returns {Promise&lt;any>} JSON contendo os valores da TODO
  */
 async function insertURL(url,short) {
-    if (url !== "" && short !== ""){
+    if (url !== "" &amp;&amp; short !== ""){
         const date = DateTime.now().toJSON();
         const conn = await connect();
         const sql = "INSERT INTO URLS(url_address,shortened_url,create_time) VALUES (?,?,?);";
@@ -82,29 +110,51 @@ async function insertURL(url,short) {
     }
 }
 
-// /**
-//  * Atualiza um regstro no banco de dados a partir do seu id.
-//  * @param {int} id - Inteiro que representa o id do registro no banco de dados.
-//  * @param {string} url - String representando a url que deve ser encurtada.
-//  * @param {string} short - String representando a url já encurtada.
-//  * @returns {Promise<any>} JSON contendo informações sobre a operação no banco de dados
-//  */
-// async function updateURL(id, url, short) {
-//     const date = DateTime.now().toJSON();
-//     const conn = await connect();
-//     const sql = "UPDATE URLS SET url_address=?, shortened_url=?, update_time=?  WHERE id=?;";
-//     const values = [url.address, url.short, date, id];
-//     return await conn.query(sql, values);
-// }
+/**
+ * Atualiza um regstro no banco de dados a partir do seu id.
+ * @param {int} id - Inteiro que representa o id do registro no banco de dados.
+ * @param {string} url - String representando a url que deve ser encurtada.
+ * @param {string} short - String representando a url já encurtada.
+ * @returns {Promise&lt;any>} JSON contendo os valores da TODO
+ */
+async function updateURL(id, url, short) {
+    const date = DateTime.now().toJSON();
+    const conn = await connect();
+    const sql = "UPDATE URLS SET url_address=?, shortened_url=?, update_time=?  WHERE id=?;";
+    const values = [url.address, url.short, date, id];
+    return await conn.query(sql, values);
+}
 
-// /**
-//  * Remove um registro do banco de dados a partir do seu id.
-//  * @param {int} id - Inteiro que representa o id do registro no banco de dados.
-//  * @returns JSON contendo informações sobre a operação no banco de dados
-//  */
-// async function deleteURL(id) {
-//     const conn = await connect();
-//     const sql = "DELETE FROM URLS WHERE id=?;";
-//     return await conn.query(sql, [id]);
-// }
-// module.exports = {selectURLs, insertURL, updateURL, deleteURL}
+/**
+ * Remove um registro do banco de dados a partir do seu id.
+ * @param {int} id - Inteiro que representa o id do registro no banco de dados.
+ * @returns JSON contendo os valores da TODO
+ */
+async function deleteURL(id) {
+    const conn = await connect();
+    const sql = "DELETE FROM URLS WHERE id=?;";
+    return await conn.query(sql, [id]);
+}
+module.exports = {selectURLs, insertURL, updateURL, deleteURL}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-dbHelper.html">dbHelper</a></li><li><a href="module-functions.html">functions</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.9</a> on Sun Jan 23 2022 06:12:41 GMT-0300 (Horário Padrão de Brasília)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

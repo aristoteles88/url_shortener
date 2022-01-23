@@ -1,33 +1,8 @@
+const functions = require("../../utils/functions");
+
 module.exports = (router) => {
     const db = require("../../config/dbHelper");
     router.get('/', (req, resp) => resp.json({ message: 'API que gera encurtador de urls funcionando corretamente!'}));
-
-    //Função que retorna uma string contendo letras e números de tamanho length (passado como parâmetro)
-    //Código obtido no endereço: https://attacomsian.com/blog/javascript-generate-random-string
-    function randomAddress(length) {
-        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let str = '';
-        for (let i = 0; i < length; i++) {
-            str += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return str;
-    };
-
-    // Função que retorna um número inteiro aleatório entre dois inteiros positivos fornecidos.
-    // Caso seja fornecido um número negativo ou o zero, este será considerado 1.
-    // Caso sejam passados dois números iguais, será retornado um número inteiro entre 1 e o número passado.
-    function randomIntBetweenTwoInts(intA, intB) {
-        if (intA < 1)
-            intA = 1;
-        if (intB < 1)
-            intB = 1;
-        if (intA < intB)
-            return intA + Math.floor(Math.random() * 1000) % (intB - intA);
-        else if (intA > intB)
-            return intB + Math.floor(Math.random() * 1000) % (intA - intB);
-        else
-            return Math.floor(Math.random() * 1000) % intA;
-    }
 
     //READ ALL
     router.get('/urls', async function (req, resp) {
@@ -66,7 +41,7 @@ module.exports = (router) => {
     //CREATE
     router.post('/urls', async function (req, resp) {
         const url_address = req.body.url_address.substring(0,255);
-        var shortened_url = randomAddress(randomIntBetweenTwoInts(8,16));
+        var shortened_url = functions.randomAddress(functions.randomIntBetweenTwoInts(8,16));
         var shortener_ok = false;
         var count = 0;
         while (!shortener_ok && count < 10) {
@@ -75,14 +50,14 @@ module.exports = (router) => {
             if (url.length === 0)
                 shortener_ok = true;
             else
-                shortened_url = randomAddress(randomIntBetweenTwoInts(8,16));
+                shortened_url = functions.randomAddress(functions.randomIntBetweenTwoInts(8,16));
         }
         if (shortener_ok) {
             url = {
                 address: url_address,
                 short: shortened_url
             }
-            await db.insertURL(url);
+            await db.insertURL(url_address, shortened_url);
         } else {
             url = {"message": "Não foi possível gerar um encurtador único para a URL. Tente novamente mais tarde."}
         }
@@ -101,7 +76,7 @@ module.exports = (router) => {
     //         address: url_address,
     //         short: shortened_url
     //     }
-    //     await db.updateURL(id, url);
+    //     await db.updateURL(id, url_address, shortened_url);
     //     resp.json(url);
     // });
 

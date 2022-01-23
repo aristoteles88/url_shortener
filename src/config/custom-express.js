@@ -1,5 +1,11 @@
 const express = require("express");
+
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+
 const app = express();
+
+const specs = YAML.load("./swagger.yml");
 
 const bodyParser = require('body-parser');
 
@@ -10,7 +16,7 @@ const rotas = require("../app/rotas/rotas");
 const router = express.Router();
 rotas(router);
 
-
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs));
 app.use('/', router);
 app.use('/urls', router);
 app.use('/urls/byid/:id', router);

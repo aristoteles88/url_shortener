@@ -1,0 +1,123 @@
+openapi: 3.0.1
+info:
+  title: :API do encurtador de URLs
+  description: Encurta a url fornecida.
+  version: 1.0.0
+tags:
+  - name: urls
+    description: 
+paths:
+  /urls:
+    get:
+      tags:
+        - urls
+      summary: Pesquisa todas as urls
+      operationId: testeOperationID
+      parameters:
+        name: url
+        in: path
+        description: endereço de url
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Tudo funcionou.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: number
+    post:
+      tags:
+        - urls
+      summary: Pesquisa todas as urls
+      operationId: testeOperationID
+      parameters:
+        name: url
+        in: path
+        description: endereço de url
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Tudo funcionou.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: number
+  /urls/byid/{id}:
+    get:
+      tags:
+        - urls
+      summary: Pesquisa todas as urls
+      operationId: testeOperationID
+      parameters:
+        name: url
+        in: path
+        description: endereço de url
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Tudo funcionou.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: number
+  /urls/bydate/{date}:
+    get:
+      tags:
+        - urls
+      summary: Pesquisa todas as urls
+      operationId: testeOperationID
+      parameters:
+        name: url
+        in: path
+        description: endereço de url
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Tudo funcionou.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: number
+  /{shortener}:
+    get:
+      tags:
+        - urls
+      summary: Pesquisa todas as urls
+      operationId: testeOperationID
+      parameters:
+        name: url
+        in: path
+        description: endereço de url
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Tudo funcionou.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: number
