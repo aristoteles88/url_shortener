@@ -36,7 +36,7 @@ async function connect() {
     console.log("Conectou ao MySQL!");
     global.connection = connection;
     return connection;
-}
+};
 
 /**
  * Faz a consulta das urls no banco de dados. pode receber um dos três parâmetros: byid, bydate e byshortener, ou nenhum parâmetro.
@@ -62,7 +62,7 @@ async function selectURLs(byid, bydate, byshortener) {
         [rows] = await conn.query("SELECT * FROM URLS;");
     }
     return rows;
-}
+};
 
 /**
  * Cria registro da url informada no parâmetro no banco de dados.
@@ -80,7 +80,7 @@ async function insertURL(url,short) {
     } else {
         return {"message": "Os valores url e short não podem ser vazios."}
     }
-}
+};
 
 // /**
 //  * Atualiza um regstro no banco de dados a partir do seu id.
@@ -107,4 +107,5 @@ async function insertURL(url,short) {
 //     const sql = "DELETE FROM URLS WHERE id=?;";
 //     return await conn.query(sql, [id]);
 // }
-module.exports = {selectURLs, insertURL, updateURL, deleteURL}
+// module.exports = {selectURLs, insertURL, updateURL, deleteURL};
+module.exports = {selectURLs, insertURL};
