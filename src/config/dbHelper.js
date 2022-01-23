@@ -107,4 +107,4 @@ async function insertURL(url,short) {
 //     const sql = "DELETE FROM URLS WHERE id=?;";
 //     return await conn.query(sql, [id]);
 // }
-// module.exports = {selectURLs, insertURL, updateURL, deleteURL}
+module.exports = {selectURLs, insertURL, updateURL, deleteURL}
