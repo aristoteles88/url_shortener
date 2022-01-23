@@ -2,6 +2,10 @@
   "name": "urlshortener",
   "version": "1.0.0",
   "description": "Projeto desenvolvido na atividade 3 da disciplina Desenvolvimento Backend para Aplicações Móveis da pós-graduação em Desenvolvimento Mobile da Faculdade Unyleya. O projeto consiste em um encurtador de URL.",
+  "engines": {
+    "node": "16.13.2",
+    "npm": "8.1.2"
+  },
   "main": "index.js",
   "scripts": {
     "generate:doc": "jsdoc -r src",
