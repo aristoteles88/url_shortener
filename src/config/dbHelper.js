@@ -10,46 +10,19 @@ var { DateTime } = require('luxon');
 
 
 async function dbClient() {
-    // if (global.connection && global.connection.state !== "disconnected") {
-    //     return global.connection;
-    // }
-
     require("dotenv").config('../../');
-    // const host = process.env.DB_HOST;
-    // const host = process.env.DATABASE_URL;
-    // const host = "postgres://ymrvfozsohgnbz:fd00c60298682bd6670c9660339bc5a39c4d5ce2ae47a45d4d9da1d9a4d9e41e@ec2-3-222-49-168.compute-1.amazonaws.com:5432/d6g0dm3pbvrpe1";
-    // console.log("DB_URL = " + process.env.DATABASE_URL);
-    // const port = process.env.DB_PORT;
-    // const user = process.env.DB_USER;
-    // const password = process.env.PASSWORD;
-    // const database = process.env.DATABASE;
 
     const { Client } = require('pg')
 
     const client = new Client({
-        connectionString: process.env.DATABASE_URL || "postgres://ymrvfozsohgnbz:fd00c60298682bd6670c9660339bc5a39c4d5ce2ae47a45d4d9da1d9a4d9e41e@ec2-3-222-49-168.compute-1.amazonaws.com:5432/d6g0dm3pbvrpe1",
+        connectionString: process.env.DATABASE_URL,
         ssl: {
             rejectUnauthorized: false
           }
       });
 
-    // const pgClient = new Client({
-    //     host     : host,
-    //     port     : port,
-    //     user     : user,
-    //     password : password,
-    //     database : database
-    // })
-
     await client.connect();
 
-    /**
-     * 
-     */
-    // const connection = await pgClient.connect()
-    // console.log("Conectou ao Postgre!");
-    // global.connection = connection;
-    // return connection;
     return client;
 };
 
