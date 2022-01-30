@@ -32,7 +32,8 @@ module.exports = (router) => {
             resp.json(urls)
         } else {
             const url = await db.selectURLs(null,null,shortener)
-            resp.json(url)
+            const redirectUrl = url['url_address']
+            resp.redirect(redirectUrl)
         }
     });
 
