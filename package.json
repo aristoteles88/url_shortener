@@ -40,6 +40,7 @@
     "jsdoc": "^3.6.9",
     "luxon": "^2.3.0",
     "mysql2": "^2.3.3",
+    "pg": "^8.7.1",
     "phoenix": "^1.6.6",
     "swagger-ui-express": "^4.3.0",
     "yamljs": "^0.3.0"

@@ -1,6 +1,8 @@
 const app = require("./config/custom-express");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5050;
+
+console.log("Aplicação rodando na porta: " + PORT);
 
 app.listen(PORT);
 

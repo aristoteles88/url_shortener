@@ -5,37 +5,52 @@ var { DateTime } = require('luxon');
 
 /**
  * Cria a conexão com o banco de dados MySQL utilizando os parâmetros definidos no arquivo .env.
- * @returns {mysql.connection} Dados da conexão com o banco de dados MySQL.
+ * @returns {} Dados da conexão com o banco de dados MySQL.
  */
 
 
-async function connect() {
-    if (global.connection && global.connection.state !== "disconnected") {
-        return global.connection;
-    }
+async function dbClient() {
+    // if (global.connection && global.connection.state !== "disconnected") {
+    //     return global.connection;
+    // }
 
     require("dotenv").config('../../');
-    const host = process.env.DB_HOST;
-    const port = process.env.PORT;
-    const user = process.env.DB_USER;
-    const password = process.env.PASSWORD;
-    const database = process.env.DATABASE;
+    // const host = process.env.DB_HOST;
+    // const host = process.env.DATABASE_URL;
+    // const host = "postgres://ymrvfozsohgnbz:fd00c60298682bd6670c9660339bc5a39c4d5ce2ae47a45d4d9da1d9a4d9e41e@ec2-3-222-49-168.compute-1.amazonaws.com:5432/d6g0dm3pbvrpe1";
+    // console.log("DB_URL = " + process.env.DATABASE_URL);
+    // const port = process.env.DB_PORT;
+    // const user = process.env.DB_USER;
+    // const password = process.env.PASSWORD;
+    // const database = process.env.DATABASE;
 
-    const mysql = require("mysql2/promise");
+    const { Client } = require('pg')
+
+    const client = new Client({
+        connectionString: process.env.DATABASE_URL || "postgres://ymrvfozsohgnbz:fd00c60298682bd6670c9660339bc5a39c4d5ce2ae47a45d4d9da1d9a4d9e41e@ec2-3-222-49-168.compute-1.amazonaws.com:5432/d6g0dm3pbvrpe1",
+        ssl: {
+            rejectUnauthorized: false
+          }
+      });
+
+    // const pgClient = new Client({
+    //     host     : host,
+    //     port     : port,
+    //     user     : user,
+    //     password : password,
+    //     database : database
+    // })
+
+    await client.connect();
 
     /**
      * 
      */
-    const connection = await mysql.createConnection({
-        host     : host,
-        port     : port,
-        user     : user,
-        password : password,
-        database : database
-    });
-    console.log("Conectou ao MySQL!");
-    global.connection = connection;
-    return connection;
+    // const connection = await pgClient.connect()
+    // console.log("Conectou ao Postgre!");
+    // global.connection = connection;
+    // return connection;
+    return client;
 };
 
 /**
@@ -50,18 +65,18 @@ async function connect() {
  * @returns {Promise<any>} JSON contendo informações sobre a operação no banco de dados
  */
 async function selectURLs(byid, bydate, byshortener) {
-    const conn = await connect();
-    var [rows] = [];
+    const pgClient = await dbClient();
+    var rows = [];
     if (byid) {
-        [rows] = await conn.query("SELECT * FROM URLS WHERE id=?;", [byid]);
+        rows = await pgClient.query("SELECT * FROM urls WHERE id=$1;", [byid])
     } else if (bydate) {
-        [rows] = await conn.query("SELECT * FROM URLS WHERE create_time LIKE ?;", [`${bydate}%`]);
+        rows = await pgClient.query("SELECT * FROM urls WHERE create_time::text LIKE $1;", [`${bydate}%`])
     } else if (byshortener) {
-        [rows] = await conn.query("SELECT * FROM URLS WHERE shortened_url=?;", [byshortener]);
+        rows = await pgClient.query("SELECT * FROM urls WHERE shortened_url=$1;", [byshortener])
     } else {
-        [rows] = await conn.query("SELECT * FROM URLS;");
+        rows = await pgClient.query('SELECT * FROM urls;')
     }
-    return rows;
+    return rows.rows
 };
 
 /**
@@ -73,10 +88,12 @@ async function selectURLs(byid, bydate, byshortener) {
 async function insertURL(url,short) {
     if (url !== "" && short !== ""){
         const date = DateTime.now().toJSON();
-        const conn = await connect();
-        const sql = "INSERT INTO URLS(url_address,shortened_url,create_time) VALUES (?,?,?);";
+        const pgClient = await dbClient();
+        
+        const sql = "INSERT INTO urls(url_address, shortened_url, create_time) VALUES($1,$2,$3)";
         const values = [url, short, date];
-        return await conn.query(sql, values);
+        const resp = await pgClient.query(sql, values)
+        return resp;
     } else {
         return {"message": "Os valores url e short não podem ser vazios."}
     }

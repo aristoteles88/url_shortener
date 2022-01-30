@@ -29,12 +29,10 @@ module.exports = (router) => {
         const shortener = req.params.shortener;
         if (shortener === "urls"){
             const urls = await db.selectURLs();
-            console.log(urls);
-            resp.json(urls);
+            resp.json(urls)
         } else {
-            const url = await db.selectURLs(null,null,shortener);
-            console.log(url);
-            resp.json(url);
+            const url = await db.selectURLs(null,null,shortener)
+            resp.json(url)
         }
     });
 
