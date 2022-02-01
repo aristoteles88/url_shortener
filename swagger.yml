@@ -41,16 +41,6 @@
                     type: string
               example:
                 url_address: http://www.url.com
-        # parameters:
-        # - in: "body"
-        #   name: "url_address"
-        #   description: "Endereço de url que deseja encurtar"
-        #   required: true
-        #   schema:
-        #     type: map
-        #     properties:
-        #       url_address:
-        #         type: string
         responses:
           "200":
             description: "Funcionou corretamente"
@@ -130,7 +120,6 @@
             description: "URL não encontrada"
   definitions:
     URL:
-      type: "object"
       properties:
         id:
           type: "integer"
@@ -150,110 +139,3 @@
   externalDocs:
     description: "Find out more about Swagger"
     url: "http://swagger.io"
-    /urls:
-      get:
-        tags:
-          - urls
-        summary: Pesquisa todas as urls
-        operationId: testeOperationID
-        responses:
-          200:
-            description: Tudo funcionou.
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    result:
-                      type: number
-      post:
-        tags:
-          - urls
-        summary: Pesquisa todas as urls
-        operationId: testeOperationID
-        parameters:
-          name: url
-          in: path
-          description: endereço de url
-          required: true
-          schema:
-            type: string
-        responses:
-          200:
-            description: Tudo funcionou.
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    result:
-                      type: number
-    /urls/byid/{id}:
-      get:
-        tags:
-          - urls
-        summary: Pesquisa todas as urls
-        operationId: testeOperationID
-        parameters:
-          name: url
-          in: path
-          description: endereço de url
-          required: true
-          schema:
-            type: string
-        responses:
-          200:
-            description: Tudo funcionou.
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    result:
-                      type: number
-    /urls/bydate/{date}:
-      get:
-        tags:
-          - urls
-        summary: Pesquisa todas as urls
-        operationId: testeOperationID
-        parameters:
-          name: url
-          in: path
-          description: endereço de url
-          required: true
-          schema:
-            type: string
-        responses:
-          200:
-            description: Tudo funcionou.
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    result:
-                      type: number
-    /{shortener}:
-      get:
-        tags:
-          - urls
-        summary: Pesquisa todas as urls
-        operationId: testeOperationID
-        parameters:
-          name: url
-          in: path
-          description: endereço de url
-          required: true
-          schema:
-            type: string
-        responses:
-          200:
-            description: Tudo funcionou.
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    result:
-                      type: number
