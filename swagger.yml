@@ -120,6 +120,7 @@
             description: "URL não encontrada"
   definitions:
     URL:
+      type: "object"
       properties:
         id:
           type: "integer"
