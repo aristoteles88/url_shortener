@@ -2,7 +2,7 @@ const functions = require("../../utils/functions");
 
 module.exports = (router) => {
     const db = require("../../config/dbHelper");
-    router.get('/', (req, resp) => resp.json({ message: 'API que gera encurtador de urls funcionando corretamente!'}));
+    router.get('/', (req, resp) => resp.json({ message: 'Encurtador de urls - acesse https://calm-garden-14010.herokuapp.com/docs para a documentação ou https://calm-garden-14010.herokuapp.com/urls para ver endereços já cadastrados.'}));
 
     //READ ALL
     router.get('/urls', async function (req, resp) {
@@ -39,7 +39,6 @@ module.exports = (router) => {
 
     //CREATE
     router.post('/urls', async function (req, resp) {
-        console.log(req + "\n" + req.body + "\n" + req.body.url_address + "\n");
         const url_address = req.body.url_address.substring(0,255);
         var shortened_url = functions.randomAddress(functions.randomIntBetweenTwoInts(8,16));
         var shortener_ok = false;
