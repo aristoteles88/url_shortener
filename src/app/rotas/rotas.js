@@ -32,17 +32,14 @@ module.exports = (router) => {
             resp.json(urls)
         } else {
             const url = await db.selectURLs(null,null,shortener)
-            // console.log(url)
-            // console.log("\n\n\n")
-            // console.log(url[0]['url_address'])
             const redirectUrl = url[0]['url_address']
             resp.redirect(redirectUrl)
-            // resp.json(url)
         }
     });
 
     //CREATE
     router.post('/urls', async function (req, resp) {
+        console.log(req + "\n" + req.body + "\n" + req.body.url_address + "\n");
         const url_address = req.body.url_address.substring(0,255);
         var shortened_url = functions.randomAddress(functions.randomIntBetweenTwoInts(8,16));
         var shortener_ok = false;

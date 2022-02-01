@@ -1,123 +1,259 @@
-openapi: 3.0.1
-info:
-  title: :API do encurtador de URLs
-  description: Encurta a url fornecida.
-  version: 1.0.0
-tags:
-  - name: urls
-    description: 
-paths:
-  /urls:
-    get:
-      tags:
-        - urls
-      summary: Pesquisa todas as urls
-      operationId: testeOperationID
-      parameters:
-        name: url
-        in: path
-        description: endereço de url
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: Tudo funcionou.
+  openapi: 3.0.1
+  info:
+    title: :API do encurtador de URLs
+    description: Encurta a url fornecida.
+    version: 1.0.0
+  tags:
+    - name: "urls"
+      description: "Operações com o encurtador de urls"
+  paths:
+    /urls:
+      get:
+        tags:
+          - "urls"
+        summary: "Pesquisa todas as urls"
+        description: "Retorna um mapa com dos dados de todas as urls registradas no banco de dados."
+        operationId: "getAllURLs"
+        produces:
+        - "application/json"
+        parameters: []
+        responses:
+          "200":
+            description: "Funcionou corretamente"
+      post:
+        tags:
+          - "urls"
+        summary: "Adiciona nova url"
+        description: "Cria valor encurtado para a url informada e a adiciona ao banco de dados "
+        operationId: "postNewURL"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        requestBody:
+          required: true
           content:
             application/json:
               schema:
-                type: object
+                type: string
                 properties:
-                  result:
-                    type: number
-    post:
-      tags:
-        - urls
-      summary: Pesquisa todas as urls
-      operationId: testeOperationID
-      parameters:
-        name: url
-        in: path
-        description: endereço de url
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: Tudo funcionou.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: number
-  /urls/byid/{id}:
-    get:
-      tags:
-        - urls
-      summary: Pesquisa todas as urls
-      operationId: testeOperationID
-      parameters:
-        name: url
-        in: path
-        description: endereço de url
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: Tudo funcionou.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: number
-  /urls/bydate/{date}:
-    get:
-      tags:
-        - urls
-      summary: Pesquisa todas as urls
-      operationId: testeOperationID
-      parameters:
-        name: url
-        in: path
-        description: endereço de url
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: Tudo funcionou.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: number
-  /{shortener}:
-    get:
-      tags:
-        - urls
-      summary: Pesquisa todas as urls
-      operationId: testeOperationID
-      parameters:
-        name: url
-        in: path
-        description: endereço de url
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          description: Tudo funcionou.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  result:
-                    type: number
+                  url_address:
+                    type: string
+              example:
+                url_address: http://www.url.com
+        # parameters:
+        # - in: "body"
+        #   name: "url_address"
+        #   description: "Endereço de url que deseja encurtar"
+        #   required: true
+        #   schema:
+        #     type: map
+        #     properties:
+        #       url_address:
+        #         type: string
+        responses:
+          "200":
+            description: "Funcionou corretamente"
+    /urls/byid/{urlId}:
+      get:
+        tags:
+          - "urls"
+        summary: "Encontra uma url pelo ID"
+        description: "Retorna apenas uma url"
+        operationId: "getURLByID"
+        produces:
+        - "application/json"
+        parameters:
+        - name: "urlId"
+          in: "path"
+          description: "ID da url a ser retornada"
+          required: true
+          type: "integer"
+          format: "int64"
+        responses:
+          "200":
+            description: "Funcionou corretamente"
+            schema:
+              $ref: "#/definitions/URL"
+          "400":
+            description: "ID inválida informada"
+          "404":
+            description: "URL não encontrada"
+    /urls/bydate/{urlDate}:
+      get:
+        tags:
+          - "urls"
+        summary: "Encontra urls pela data de criação"
+        description: "Retorna todas as url da mesma data"
+        operationId: "getURLByDate"
+        produces:
+        - "application/json"
+        parameters:
+        - name: "urlDate"
+          in: "path"
+          description: "Data de criação da url a ser retornada no formato aaaa-mm-dd"
+          required: true
+          type: "string"
+          format: "date"
+        responses:
+          "200":
+            description: "Funcionou corretamente"
+            schema:
+              $ref: "#/definitions/URL"
+          "400":
+            description: "Data inválida informada"
+          "404":
+            description: "URL não encontrada"
+    /{urlShortener}:
+      get:
+        tags:
+          - "urls"
+        summary: "Encontrar uma url pelo código de encurtamento"
+        description: "Retorna apenas uma url"
+        operationId: "getURLByShortener"
+        produces:
+        - "application/json"
+        parameters:
+        - name: "urlShortener"
+          in: "path"
+          description: "Encurtamento da url a ser retornada"
+          required: true
+          type: "string"
+        responses:
+          "200":
+            description: "Funcionou corretamente"
+            schema:
+              $ref: "#/definitions/URL"
+          "400":
+            description: "Encurtador inválido informada"
+          "404":
+            description: "URL não encontrada"
+  definitions:
+    URL:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        create_time:
+          type: "string"
+          format: "date-time"
+        url_address:
+          type: "string"
+          description: "URL original"
+        shortened_url:
+          type: "string"
+          description: "URL encurtada"
+        update_time:
+          type: "string"
+          format: "date-time"
+  externalDocs:
+    description: "Find out more about Swagger"
+    url: "http://swagger.io"
+    /urls:
+      get:
+        tags:
+          - urls
+        summary: Pesquisa todas as urls
+        operationId: testeOperationID
+        responses:
+          200:
+            description: Tudo funcionou.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    result:
+                      type: number
+      post:
+        tags:
+          - urls
+        summary: Pesquisa todas as urls
+        operationId: testeOperationID
+        parameters:
+          name: url
+          in: path
+          description: endereço de url
+          required: true
+          schema:
+            type: string
+        responses:
+          200:
+            description: Tudo funcionou.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    result:
+                      type: number
+    /urls/byid/{id}:
+      get:
+        tags:
+          - urls
+        summary: Pesquisa todas as urls
+        operationId: testeOperationID
+        parameters:
+          name: url
+          in: path
+          description: endereço de url
+          required: true
+          schema:
+            type: string
+        responses:
+          200:
+            description: Tudo funcionou.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    result:
+                      type: number
+    /urls/bydate/{date}:
+      get:
+        tags:
+          - urls
+        summary: Pesquisa todas as urls
+        operationId: testeOperationID
+        parameters:
+          name: url
+          in: path
+          description: endereço de url
+          required: true
+          schema:
+            type: string
+        responses:
+          200:
+            description: Tudo funcionou.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    result:
+                      type: number
+    /{shortener}:
+      get:
+        tags:
+          - urls
+        summary: Pesquisa todas as urls
+        operationId: testeOperationID
+        parameters:
+          name: url
+          in: path
+          description: endereço de url
+          required: true
+          schema:
+            type: string
+        responses:
+          200:
+            description: Tudo funcionou.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    result:
+                      type: number
